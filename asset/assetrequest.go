@@ -4,6 +4,7 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
+// asset types
 type AssetType int
 
 const (
@@ -16,6 +17,7 @@ const (
 	Unknown
 )
 
+// A request for an asset of the specified type
 type AssetRequest struct {
 	Id                 string
 	Value              string
