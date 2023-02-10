@@ -8,8 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	_ "github.com/dmars8047/brogame/animation"
-
+	"github.com/dmars8047/brogame/animation"
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/mix"
 	"github.com/veandco/go-sdl2/sdl"
@@ -21,7 +20,7 @@ type AssetManager struct {
 	Fonts         map[string]*ttf.Font
 	Music         map[string]*mix.Music
 	SoundEffects  map[string]*mix.Chunk
-	AnimationData map[string]*Animation
+	AnimationData map[string]*animation.Animation
 }
 
 // Creates and initializes a new AssetManager.
@@ -32,7 +31,7 @@ func NewAssetManager() *AssetManager {
 		Fonts:         make(map[string]*ttf.Font),
 		Music:         make(map[string]*mix.Music),
 		SoundEffects:  make(map[string]*mix.Chunk),
-		AnimationData: make(map[string]*Animation),
+		AnimationData: make(map[string]*animation.Animation),
 	}
 
 	return &assetManager
@@ -257,7 +256,7 @@ func (assetManager *AssetManager) LoadAnimation(request *AssetRequest, overwrite
 
 	defer file.Close()
 
-	frames := make([]AnimationFrame, 0)
+	frames := make([]animation.AnimationFrame, 0)
 
 	scanner := bufio.NewScanner(file)
 	lineNum := 1
@@ -271,12 +270,12 @@ func (assetManager *AssetManager) LoadAnimation(request *AssetRequest, overwrite
 			}
 
 			// # FORMAT: FRAME_X, FRAME_Y, FRAME_W, FRAME_H, DURATION
-			frames = append(frames, NewAnimationFrame(parsedAnimationData[0], parsedAnimationData[1], parsedAnimationData[2], parsedAnimationData[3], parsedAnimationData[4]))
+			frames = append(frames, animation.NewAnimationFrame(parsedAnimationData[0], parsedAnimationData[1], parsedAnimationData[2], parsedAnimationData[3], parsedAnimationData[4]))
 		}
 		lineNum++
 	}
 
-	assetManager.AnimationData[request.Id] = NewAnimation(request.Id, request.IsAnimationLooping, &frames)
+	assetManager.AnimationData[request.Id] = animation.NewAnimation(request.Id, request.IsAnimationLooping, &frames)
 
 	return nil
 }
