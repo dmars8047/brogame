@@ -270,7 +270,7 @@ func (assetManager *AssetManager) LoadAnimation(request *AssetRequest, overwrite
 			}
 
 			// # FORMAT: FRAME_X, FRAME_Y, FRAME_W, FRAME_H, DURATION
-			frames = append(frames, animation.NewAnimationFrame(parsedAnimationData[0], parsedAnimationData[1], parsedAnimationData[2], parsedAnimationData[3], parsedAnimationData[4]))
+			frames = append(frames, animation.MakeAnimationFrame(parsedAnimationData[0], parsedAnimationData[1], parsedAnimationData[2], parsedAnimationData[3], parsedAnimationData[4]))
 		}
 		lineNum++
 	}
