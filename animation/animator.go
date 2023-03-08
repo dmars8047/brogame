@@ -30,14 +30,32 @@ func (animator *Animator) SetCurrentAnimation(animationId *string) error {
 
 func (animator *Animator) GetCurrentAnimationSourceRect() (*sdl.Rect, error) {
 	if animator.currentAnimation == nil {
-		return nil, errors.New("animator does not have a current animation set.")
+		return nil, errors.New("animator does not have a current animation set")
 	}
 
-	frames := *animator.currentAnimation.Frames
-
-	return &frames[animator.currentFrameIndex].Rect, nil
+	return &animator.currentAnimation.Frames[animator.currentFrameIndex].Rect, nil
 }
 
-func (animator *Animator) Update(deltaTicks int) {
+func (animator *Animator) Update(deltaTicks int) error {
+	animator.frameTimeElapsed += deltaTicks
 
+	currentFrameDuration, err := animator.currentAnimation.GetFrameDuration(animator.currentFrameIndex)
+
+	if err != nil {
+		return err
+	}
+
+	if animator.frameTimeElapsed > currentFrameDuration {
+		if animator.currentAnimation.GetNumFrames() <= animator.currentFrameIndex+1 {
+			if animator.currentAnimation.IsLooping {
+				animator.currentFrameIndex = 0
+			}
+		} else {
+			animator.currentFrameIndex++
+		}
+
+		animator.frameTimeElapsed -= currentFrameDuration
+	}
+
+	return nil
 }
