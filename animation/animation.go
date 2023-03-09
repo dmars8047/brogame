@@ -8,8 +8,12 @@ type Animation struct {
 	Frames    []AnimationFrame
 }
 
-func NewAnimation(name string, isLooping bool, frames *[]AnimationFrame) *Animation {
-	return &Animation{Name: name, IsLooping: isLooping, Frames: *frames}
+func NewAnimation(name string, isLooping bool, frames []AnimationFrame) *Animation {
+	return &Animation{Name: name, IsLooping: isLooping, Frames: frames}
+}
+
+func MakeAnimation(name string, isLooping bool, frames []AnimationFrame) Animation {
+	return Animation{Name: name, IsLooping: isLooping, Frames: frames}
 }
 
 func (animation *Animation) GetFrameDuration(index int) (int, error) {

@@ -8,20 +8,25 @@ import (
 
 type Animator struct {
 	frameTimeElapsed, currentFrameIndex int
-	animations                          map[string]*Animation
+	animations                          map[string]Animation
 	currentAnimation                    *Animation
 }
 
-func NewAnimator(animations map[string]*Animation) *Animator {
+func NewAnimator(animations map[string]Animation) *Animator {
 	var animator = Animator{frameTimeElapsed: 0, currentFrameIndex: 0, animations: animations, currentAnimation: nil}
 	return &animator
+}
+
+func MakeAnimator(animations map[string]Animation) Animator {
+	var animator = Animator{frameTimeElapsed: 0, currentFrameIndex: 0, animations: animations, currentAnimation: nil}
+	return animator
 }
 
 func (animator *Animator) SetCurrentAnimation(animationId *string) error {
 	animation, ok := animator.animations[*animationId]
 
 	if ok {
-		animator.currentAnimation = animation
+		animator.currentAnimation = &animation
 		return nil
 	} else {
 		return errors.New("'%s' is not an animation loaded into animator")

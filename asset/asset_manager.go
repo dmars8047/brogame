@@ -275,7 +275,7 @@ func (assetManager *AssetManager) LoadAnimation(request *AssetRequest, overwrite
 		lineNum++
 	}
 
-	assetManager.AnimationData[request.Id] = animation.NewAnimation(request.Id, request.IsAnimationLooping, &frames)
+	assetManager.AnimationData[request.Id] = animation.NewAnimation(request.Id, request.IsAnimationLooping, frames)
 
 	return nil
 }
